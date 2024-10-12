@@ -1,0 +1,2 @@
+# tushare2doris
+用于将tushare数据同步至本地Doris数据库
