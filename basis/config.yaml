@@ -1,0 +1,292 @@
+#yaml以空格区分层级。请确保以下内容空格不要乱，同时不要用tab
+#tushare设置
+# 此处配置tushare的token。也可以保持此处为空，通过以下python代码设置本机token
+# import tushare as ts
+# ts.set_token('your token here')
+# https://tushare.pro/document/1?doc_id=40
+tushare_proToken: ""  
+retry_times_max: 5 #如果出错，最多尝试连接次数（包括首次连接）
+retry_gap: 61 #如果出错，重试间隔时间
+#tushare积分与频次权限对应表。此处设置间隔0.12s，每分钟上限500次，对应的积分要求为5000积分
+#https://tushare.pro/document/1?doc_id=290
+regular_gap: 0.12 #正常下载中，两次下载之间时间间隔
+
+
+
+#doris设置
+host: "127.0.0.1"  # database所在主机。 127.0.0.1 表示本机
+database_name: db  # 当前所使用的数据库名
+user_name: root # 数据库登录的用户名
+password: "1234"  # 数据库登录的密码
+ 
+fe:
+  http_port : "8030"
+  rpc_port : "9020"
+  query_port : "9030"
+  edit_log_port : "9010"
+  arrow_flight_sql_port : "9090"
+
+be:
+ be_port : "9060"
+ webserver_port : "8040"
+ heartbeat_service_port : "9050"
+ brpc_port : "8060"
+ arrow_flight_sql_port : "9091"
+
+#沪深股票
+Ts_HuShenGuPiao_JiChuShuJu_JiaoYiRiLi: #沪深股票_基础数据_交易日历
+ table_name: Ts_HuShenGuPiao_JiChuShuJu_JiaoYiRiLi
+
+Ts_HuShenGuPiao_HangQingShuJu_RiXianHangQing: #沪深股票_行情数据_日线行情
+ table_name: Ts_HuShenGuPiao_HangQingShuJu_RiXianHangQing
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "19901219" # tushare最早有数据日期为19901219
+
+Ts_HuShenGuPiao_HangQingShuJu_FuQuanYinZi: #沪深股票_行情数据_复权因子
+ table_name: Ts_HuShenGuPiao_HangQingShuJu_FuQuanYinZi
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "19901219" # tushare最早有数据日期为19901219
+
+Ts_HuShenGuPiao_HangQingShuJu_MeiRiZhiBiao: #沪深股票_行情数据_每日指标
+ table_name: Ts_HuShenGuPiao_HangQingShuJu_MeiRiZhiBiao
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "19901219" # tushare最早有数据日期为
+ 
+Ts_HuShenGuPiao_HangQingShuJu_GeGuZiJinLiuXiang: #沪深股票_行情数据_个股资金流向
+ table_name: Ts_HuShenGuPiao_HangQingShuJu_GeGuZiJinLiuXiang
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "20070104" # tushare最早有数据日期为20070104
+ 
+Ts_HuShenGuPiao_HangQingShuJu_MeiRiZhangDieTingJiaGe: #沪深股票_行情数据_每日涨跌停价格
+ table_name: Ts_HuShenGuPiao_HangQingShuJu_MeiRiZhangDieTingJiaGe
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "20070104" # tushare最早有数据日期为20070104
+ 
+Ts_HuShenGuPiao_HangQingShuJu_MeiRiTingFuPaiXinXi: #沪深股票_行情数据_每日停复牌信息
+ table_name: Ts_HuShenGuPiao_HangQingShuJu_MeiRiTingFuPaiXinXi
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "19990504" # tushare最早有数据日期为
+  
+Ts_HuShenGuPiao_HangQingShuJu_HuShenGangTongZiJinLiuXiang: #沪深股票_行情数据_沪深港通资金流向
+ table_name: Ts_HuShenGuPiao_HangQingShuJu_HuShenGangTongZiJinLiuXiang
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "20141117" # tushare最早有数据日期为
+ 
+Ts_HuShenGuPiao_HangQingShuJu_HuShenGuTongShiDaChengJiaoGu: #沪深股票_行情数据_沪深股通十大成交股
+ table_name: Ts_HuShenGuPiao_HangQingShuJu_HuShenGuTongShiDaChengJiaoGu
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "20141117" # tushare最早有数据日期为
+
+Ts_HuShenGuPiao_HangQingShuJu_GangGuTongShiDaChengJiaoGu: #沪深股票_行情数据_港股通十大成交股
+ table_name: Ts_HuShenGuPiao_HangQingShuJu_GangGuTongShiDaChengJiaoGu
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "20141117" # tushare最早有数据日期为
+ 
+Ts_HuShenGuPiao_HangQingShuJu_GangGuTongMeiRiChengJiaoTongJi: #沪深股票_行情数据_港股通每日成交统计
+ table_name: Ts_HuShenGuPiao_HangQingShuJu_GangGuTongMeiRiChengJiaoTongJi
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "20141117" # tushare最早有数据日期为
+
+
+Ts_HuShenGuPiao_HangQingShuJu_BeiYongHangQing: #沪深股票_行情数据_备用行情
+ table_name: Ts_HuShenGuPiao_HangQingShuJu_BeiYongHangQing
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "20170614" # tushare最早有数据日期为
+
+
+Ts_HuShenGuPiao_CaiWuShuJu_LiRunBiao: #沪深股票_财务数据_利润表
+ table_name: Ts_HuShenGuPiao_CaiWuShuJu_LiRunBiao
+ download_as_fresh: 0
+ num_previous_days_redownload: 10
+ num_previous_seasons_redownload: 8
+ first_date_download_default: "19901219" # Tushare中该指标的最早日期为19950105
+
+Ts_HuShenGuPiao_CaiWuShuJu_ZiChanFuZhaiBiao: #沪深股票_财务数据_资产负债表
+ table_name: Ts_HuShenGuPiao_CaiWuShuJu_ZiChanFuZhaiBiao
+ download_as_fresh: 0
+ num_previous_days_redownload: 10
+ num_previous_seasons_redownload: 8
+ first_date_download_default: "19901219" # Tushare中该指标的最早日期为
+
+Ts_HuShenGuPiao_CaiWuShuJu_XianJinLiuLiangBiao: #沪深股票_财务数据_现金流量表
+ table_name: Ts_HuShenGuPiao_CaiWuShuJu_XianJinLiuLiangBiao
+ download_as_fresh: 0
+ num_previous_days_redownload: 10
+ num_previous_seasons_redownload: 8
+ first_date_download_default: "19901219" # Tushare中该指标的最早日期为
+
+Ts_HuShenGuPiao_CaiWuShuJu_YeJiYuGao: #沪深股票_财务数据_业绩预告
+ table_name: Ts_HuShenGuPiao_CaiWuShuJu_YeJiYuGao
+ download_as_fresh: 0
+ num_previous_days_redownload: 10
+ num_previous_seasons_redownload: 8
+ first_date_download_default: "19901219" # Tushare中该指标的最早日期为
+
+Ts_HuShenGuPiao_CaiWuShuJu_YeJiKuaiBao: #沪深股票_财务数据_业绩快报
+ table_name: Ts_HuShenGuPiao_CaiWuShuJu_YeJiKuaiBao
+ download_as_fresh: 0
+ num_previous_days_redownload: 10
+ num_previous_seasons_redownload: 8
+ first_date_download_default: "19901219" # Tushare中该指标的最早日期为
+
+Ts_HuShenGuPiao_CaiWuShuJu_FenHongSongGuShuJu: #沪深股票_财务数据_分红送股数据
+ table_name: Ts_HuShenGuPiao_CaiWuShuJu_FenHongSongGuShuJu
+ download_as_fresh: 0
+ num_previous_days_redownload: 10
+ first_date_download_default: "19901219" # Tushare中该指标的最早日期为
+
+Ts_HuShenGuPiao_CaiWuShuJu_CaiWuZhiBiaoShuJu: #沪深股票_财务数据_财务指标数据
+ table_name: Ts_HuShenGuPiao_CaiWuShuJu_CaiWuZhiBiaoShuJu
+ download_as_fresh: 0
+ num_previous_days_redownload: 10
+ num_previous_seasons_redownload: 8
+ first_date_download_default: "19901219" # Tushare中该指标的最早日期为
+
+Ts_HuShenGuPiao_CaiWuShuJu_CaiWuShenJiYiJian: #沪深股票_财务数据_财务审计意见
+ table_name: Ts_HuShenGuPiao_CaiWuShuJu_CaiWuShenJiYiJian
+ download_as_fresh: 0
+ num_previous_days_redownload: 10
+ num_previous_seasons_redownload: 8
+ first_date_download_default: "19901219" # Tushare中该指标的最早日期为
+
+Ts_HuShenGuPiao_CaiWuShuJu_ZhuYingYeWuGouCheng: #沪深股票_财务数据_主营业务构成
+ table_name: Ts_HuShenGuPiao_CaiWuShuJu_ZhuYingYeWuGouCheng
+ download_as_fresh: 0
+ num_previous_seasons_redownload: 8
+ first_date_download_default: "19901219" # Tushare中该指标的最早日期为
+
+Ts_HuShenGuPiao_CaiWuShuJu_CaiBaoPiLuRiQiBiao: #沪深股票_财务数据_财报披露日期表
+ table_name: Ts_HuShenGuPiao_CaiWuShuJu_CaiBaoPiLuRiQiBiao
+ download_as_fresh: 0
+ num_previous_seasons_redownload: 8
+ first_date_download_default: "19901219" # Tushare中该指标的最早日期为
+
+#指数
+
+Ts_ZhiShu_ZhiShuJiBenXinXi: # 指数-指数基本信息
+ table_name: Ts_ZhiShu_ZhiShuJiBenXinXi
+ 
+Ts_ZhiShu_ZhiShuRiXianHangQing: # 指数_指数日线行情
+ table_name: Ts_ZhiShu_ZhiShuRiXianHangQing
+ download_as_fresh: 0
+ first_date_download_default: "19900101" 
+
+Ts_ZhiShu_ZhiShuChengFenHeQuanZhong: # 指数_指数成分和权重
+ table_name: Ts_ZhiShu_ZhiShuChengFenHeQuanZhong
+ download_as_fresh: 0
+
+Ts_ZhiShu_DaPanZhiShuMeiRiZhiBiao: #指数_大盘指数每日指标
+ table_name: Ts_ZhiShu_DaPanZhiShuMeiRiZhiBiao
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "20040102" # tushare最早有数据日期为20040102
+
+Ts_ZhiShu_ShenWanHangYeFenLei: # 指数-申万行业分类
+ table_name: Ts_ZhiShu_ShenWanHangYeFenLei
+
+Ts_ZhiShu_ShenWanHangYeChengFen: # 指数-申万行业成分
+ table_name: Ts_ZhiShu_ShenWanHangYeChengFen
+
+Ts_ZhiShu_HuShenShiChangMeiRiJiaoYiTongJi: #指数_沪深市场每日交易统计
+ table_name: Ts_ZhiShu_HuShenShiChangMeiRiJiaoYiTongJi
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "19901219" # tushare最早有数据日期为19901219
+
+Ts_ZhiShu_ShenZhenShiChangMeiRiJiaoYiQingKuang: #指数_深圳市场每日交易情况
+ table_name: Ts_ZhiShu_ShenZhenShiChangMeiRiJiaoYiQingKuang
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "20080102" # tushare最早有数据日期为20080102
+
+Ts_ZhiShu_TongHuaShunGaiNianHeHangYeLieBiao: #指数_同花顺概念和行业列表
+ table_name: Ts_ZhiShu_TongHuaShunGaiNianHeHangYeLieBiao
+ 
+Ts_ZhiShu_TongHuaShunGaiNianHeHangYeZhiShuHangQing: #指数_同花顺概念和行业指数行情
+ table_name: Ts_ZhiShu_TongHuaShunGaiNianHeHangYeZhiShuHangQing
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "20070828" # tushare最早有数据日期为20070828
+
+Ts_ZhiShu_TongHuaShunGaiNianHeHangYeZhiShuChengFen: # 指数-同花顺概念和行业指数成分
+ table_name: Ts_ZhiShu_TongHuaShunGaiNianHeHangYeZhiShuChengFen
+
+Ts_ZhiShu_ZhongXinHangYeZhiShuRiHangQing: #指数_中信行业指数日行情
+ table_name: Ts_ZhiShu_ZhongXinHangYeZhiShuRiHangQing
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "20100104" # tushare最早有数据日期为20100104
+
+Ts_ZhiShu_ShenWanHangYeZhiShuRiHangQing: #指数_申万行业指数日行情
+ table_name: Ts_ZhiShu_ShenWanHangYeZhiShuRiHangQing
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "20000104" # tushare最早有数据日期为20000104
+
+
+#期货
+
+#期货交易所代码 
+#CFFEX-中金所 DCE-大商所 CZCE-郑商所 SHFE-上期所 INE-上海国际能源交易中心 GFEX-广州期货交易所
+Ts_QiHuo_exchange_list: ["CFFEX","DCE","CZCE","SHFE","INE","GFEX"]
+
+Ts_QiHuo_HeYueXinXi: # 期货_合约信息
+ table_name: Ts_QiHuo_HeYueXinXi
+
+Ts_QiHuo_JiaoYiRiLi: #期货_交易日历
+ table_name: Ts_QiHuo_JiaoYiRiLi 
+
+Ts_QiHuo_RiXianHangQing: #期货_日线行情
+ table_name: Ts_QiHuo_RiXianHangQing
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "19950417" # tushare期货_日线行情最早有数据日期为19950417 （20240920记录）
+
+Ts_QiHuo_MeiRiJieSuanCanShu: #期货_每日结算参数
+ table_name: Ts_QiHuo_MeiRiJieSuanCanShu
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "20120104" # tushare期货_每日结算参数最早有数据日期为20120104 （20240921记录）
+
+
+Ts_QiHuo_QiHuoZhuLiYuLianXuHeYue: #期货_期货主力与连续合约
+ table_name: Ts_QiHuo_QiHuoZhuLiYuLianXuHeYue
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "19950417" # tushare期货_期货主力与连续合约最早有数据日期为19950417 （20240921记录）
+
+
+Ts_QiHuo_NanHuaQiHuoZhiShuHangQing: #期货_南华期货指数行情
+ table_name: Ts_QiHuo_NanHuaQiHuoZhiShuHangQing
+
+#港股
+
+Ts_GangGu_GangGuJiChuXinXi: # 港股_港股基础信息
+ table_name: Ts_GangGu_GangGuJiChuXinXi
+
+Ts_GangGu_GangGuJiaoYiRiLi: #港股_港股交易日历
+ table_name: Ts_GangGu_GangGuJiaoYiRiLi
+ 
+Ts_GangGu_GangGuRiXianHangQing: #港股_港股日线行情
+ table_name: Ts_GangGu_GangGuRiXianHangQing
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "19900102" # tushare最早有数据日期为19900102
+
+ 
+Ts_GangGu_GangGuFuQuanHangQing: #港股_港股复权行情
+ table_name: Ts_GangGu_GangGuFuQuanHangQing
+ download_as_fresh: 0
+ num_previous_days_redownload: 3
+ first_date_download_default: "19991013" # tushare最早有数据日期为19991013
