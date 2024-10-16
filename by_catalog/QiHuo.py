@@ -18,17 +18,11 @@ def download():
 
     api.QiHuo.RiXianHangQing.create_table()
     api.QiHuo.RiXianHangQing.download()
-    # 期货_期货周/月线行情（每日更新）(接口尚未实现)
-    # 期货_分钟行情(接口尚未实现)
-    # 期货_Tick行情(接口尚未实现)
-    # 期货_仓单日报(接口尚未实现)
 
     import api.QiHuo.MeiRiJieSuanCanShu  # 期货_每日结算参数
 
     api.QiHuo.MeiRiJieSuanCanShu.create_table()
     api.QiHuo.MeiRiJieSuanCanShu.download()
-
-    # 期货_每日持仓排名(接口尚未实现)
 
     import api.QiHuo.NanHuaQiHuoZhiShuHangQing  # 期货_南华期货指数行情
 
@@ -39,7 +33,6 @@ def download():
 
     api.QiHuo.QiHuoZhuLiYuLianXuHeYue.create_table()
     api.QiHuo.QiHuoZhuLiYuLianXuHeYue.download()
-    # 期货_期货主要品种交易周报(接口尚未实现)
 
 
 if __name__ == "__main__":
