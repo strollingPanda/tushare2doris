@@ -1,5 +1,5 @@
-#yaml以空格区分层级。请确保以下内容空格不要乱，同时不要用tab
-#tushare设置
+# yaml以空格区分层级。请确保以下内容空格不要乱，同时不要用tab
+# tushare设置
 # 此处配置tushare的token。也可以保持此处为空，通过以下python代码设置本机token
 # import tushare as ts
 # ts.set_token('your token here')
@@ -7,13 +7,13 @@
 tushare_proToken: ""  
 retry_times_max: 5 #如果出错，最多尝试连接次数（包括首次连接）
 retry_gap: 61 #如果出错，重试间隔时间
-#tushare积分与频次权限对应表。此处设置间隔0.12s，每分钟上限500次，对应的积分要求为5000积分
-#https://tushare.pro/document/1?doc_id=290
+# tushare积分与频次权限对应表。此处设置间隔0.12s，每分钟上限500次，对应的积分要求为5000积分
+# https://tushare.pro/document/1?doc_id=290
 regular_gap: 0.12 #正常下载中，两次下载之间时间间隔
 
 
 
-#doris设置
+# doris设置
 host: "127.0.0.1"  # database所在主机。 127.0.0.1 表示本机
 database_name: db  # 当前所使用的数据库名
 user_name: root # 数据库登录的用户名
@@ -33,7 +33,21 @@ be:
  brpc_port : "8060"
  arrow_flight_sql_port : "9091"
 
-#沪深股票
+# 以下为本程序对tushare每一个接口下载过程的控制参数。在此做简单说明。
+
+# table_name 该接口下载的数据在doris中的表格名称。命名方式为tushare目录对应的拼音。
+
+# download_as_fresh为1时，表示无论doris中是否已存在该接口的历史数据，都重新下载该接口所有数据
+# download_as_fresh为0时，表示若doris中已存在该接口的历史数据，会重复新部分已存的历史数据，同时补全未下载的数据
+
+# num_previous_days_redownload 在下载日线时，若download_as_fresh为0，则对doris已存的最后num_previous_days_redownload日的数据进行重新下载。这样做的原因是担心tushare对前几天的数据有更新。
+
+# first_date_download_default 该接口的数据，最早从哪天开始下载
+
+# num_previous_seasons_redownload 在下载季度数据时，若download_as_fresh为0，则对doris已存的最后num_previous_seasons_redownload季度的数据进行重新下载。这样做的主要原因是公司可能对之前的季度报表数据进行更改。
+
+
+# 沪深股票
 Ts_HuShenGuPiao_JiChuShuJu_JiaoYiRiLi: #沪深股票_基础数据_交易日历
  table_name: Ts_HuShenGuPiao_JiChuShuJu_JiaoYiRiLi
 

@@ -15,9 +15,6 @@ def download():
     api.ZhiShu.ZhiShuRiXianHangQing.create_table()
     api.ZhiShu.ZhiShuRiXianHangQing.download()
 
-    # 指数_指数周线行情(接口尚未实现)
-    # 指数_指数月线行情(接口尚未实现)
-
     import api.ZhiShu.ZhiShuChengFenHeQuanZhong  # 指数_指数成分和权重
 
     api.ZhiShu.ZhiShuChengFenHeQuanZhong.create_table()
@@ -72,8 +69,6 @@ def download():
 
     api.ZhiShu.ShenWanHangYeZhiShuRiHangQing.create_table()
     api.ZhiShu.ShenWanHangYeZhiShuRiHangQing.download()
-
-    # 指数_国际主要指数(接口尚未实现)
 
 
 if __name__ == "__main__":

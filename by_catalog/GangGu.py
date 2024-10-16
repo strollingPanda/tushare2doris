@@ -20,7 +20,6 @@ def download():
 
     api.GangGu.GangGuFuQuanHangQing.create_table()
     api.GangGu.GangGuFuQuanHangQing.download()
-    # 港股_港股分钟行情(接口尚未实现)
 
 
 if __name__ == "__main__":
