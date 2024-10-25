@@ -50,8 +50,8 @@
 
 | 文件夹或文件名称      | 描述 |
 | ----------- | ----------- |
-|  ./api/     | 文件夹内每一个py文件是对tushare每一个接口的具体实现。 比如./api/HuShenGuPiao/HangQingShuJu/RiXianHangQing.py为对tushare的 沪深股票--行情数据--日线行情 接口的实现。这些用于实现tushare接口的py文件可以独立运行。      |
-|  ./basis/  |  该文件夹提供了程序运行需要的一些基础工具。其中./basis/config.yaml文件中存放了不同接口下载过程中需要的控制参数。      |
+|  ./api/     | 文件夹内每一个py文件是对tushare每一个接口的具体实现。 比如 ./api/HuShenGuPiao/HangQingShuJu/RiXianHangQing.py为对tushare的 沪深股票--行情数据--日线行情 接口的实现。这些用于实现tushare接口的py文件可以独立运行。      |
+|  ./basis/  |  该文件夹提供了程序运行需要的一些基础工具。其中 ./basis/config.yaml文件中存放了不同接口下载过程中需要的控制参数。      |
 |  ./by_catalog/  |文件夹内的py文件与tushare的一级目录一一对应，用于调用该一级目录下的所有接口。比如./by_catalog/HuShenGuPiao.py调用了tushare沪深股票目录下所有已实现的接口。该文件夹下的py文件可以独立运行。    |
 |  ./log/  |    该文件夹在程序首次运行后自动生成，用于存储程序运行的log文件。     |
 |  ./pydori/  | 该文件夹内容为python包pydoris-client 1.0.4的源码，本程序对其中./pydoris/doris_client.py的write函数进行了改写。        |
