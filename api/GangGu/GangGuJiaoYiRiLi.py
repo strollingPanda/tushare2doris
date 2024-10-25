@@ -17,6 +17,10 @@ def create_table():
     doris_client = basis.with_pydoris.connect_database()
     # 读取basis/config.yaml
     config = basis.basis_function.load_config()
+    # 下载数据存储的表格名称
+    table_name = config["Ts_GangGu_GangGuJiaoYiRiLi"]["table_name"]
+    # 删除原有表格
+    basis.basis_function.drop_table(table_name)
     # 创建表格
     operation = (
         "CREATE TABLE IF NOT EXISTS "
@@ -29,7 +33,7 @@ def create_table():
             is_open BIGINT COMMENT "是否交易 '0'休市 '1'交易",
             pretrade_date VARCHAR(8) COMMENT "上一个交易日"
         )
-        UNIQUE KEY(cal_date)
+        DUPLICATE KEY(cal_date)
         COMMENT "tushare_港股_港股交易日历"
 
         DISTRIBUTED BY HASH(cal_date) BUCKETS 1

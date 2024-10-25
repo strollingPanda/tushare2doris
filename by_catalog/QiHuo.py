@@ -4,32 +4,38 @@ if __name__ == "__main__":
 
 
 def download():
-    import api.QiHuo.HeYueXinXi  # 期货_合约信息
+    # 期货_合约信息
+    import api.QiHuo.HeYueXinXi
 
     api.QiHuo.HeYueXinXi.create_table()
     api.QiHuo.HeYueXinXi.download()
 
-    import api.QiHuo.JiaoYiRiLi  # 期货_交易日历
+    # 期货_交易日历
+    import api.QiHuo.JiaoYiRiLi
 
     api.QiHuo.JiaoYiRiLi.create_table()
     api.QiHuo.JiaoYiRiLi.download()
 
-    import api.QiHuo.RiXianHangQing  # 期货_日线行情
+    # 期货_日线行情
+    import api.QiHuo.RiXianHangQing
 
     api.QiHuo.RiXianHangQing.create_table()
     api.QiHuo.RiXianHangQing.download()
 
-    import api.QiHuo.MeiRiJieSuanCanShu  # 期货_每日结算参数
+    # 期货_每日结算参数
+    import api.QiHuo.MeiRiJieSuanCanShu
 
     api.QiHuo.MeiRiJieSuanCanShu.create_table()
     api.QiHuo.MeiRiJieSuanCanShu.download()
 
-    import api.QiHuo.NanHuaQiHuoZhiShuHangQing  # 期货_南华期货指数行情
+    # 期货_南华期货指数行情
+    import api.QiHuo.NanHuaQiHuoZhiShuHangQing
 
     api.QiHuo.NanHuaQiHuoZhiShuHangQing.create_table()
     api.QiHuo.NanHuaQiHuoZhiShuHangQing.download()
 
-    import api.QiHuo.QiHuoZhuLiYuLianXuHeYue  # 期货_期货主力与连续合约
+    # 期货_期货主力与连续合约
+    import api.QiHuo.QiHuoZhuLiYuLianXuHeYue
 
     api.QiHuo.QiHuoZhuLiYuLianXuHeYue.create_table()
     api.QiHuo.QiHuoZhuLiYuLianXuHeYue.download()

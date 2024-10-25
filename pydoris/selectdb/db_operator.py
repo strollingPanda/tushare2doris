@@ -82,9 +82,17 @@ class TableModel:
 
 
 class Table:
-    def __init__(self, df: pd.DataFrame, table_name, table_model: str, table_model_key: list = None,
-                 distributed_hash_key: list = None, buckets=None, properties=None,
-                 fields_mapping: list[tuple] = None):
+    def __init__(
+        self,
+        df: pd.DataFrame,
+        table_name,
+        table_model: str,
+        table_model_key: list = None,
+        distributed_hash_key: list = None,
+        buckets=None,
+        properties=None,
+        fields_mapping: list[tuple] = None,
+    ):
         self.table_name = table_name
         self.fields_mapping = fields_mapping
         first_desc = Desc.dataframe_convert(df)
@@ -93,9 +101,12 @@ class Table:
         else:
             self.desc = first_desc
         self.table_model = table_model
-        self.table_model_key = ",".join(table_model_key) if table_model_key is not None else self.gen_key_default()
-        self.distributed_hash_key = ",".join(
-            distributed_hash_key) if distributed_hash_key is not None else self.gen_key_default()
+        self.table_model_key = (
+            ",".join(table_model_key) if table_model_key is not None else self.gen_key_default()
+        )
+        self.distributed_hash_key = (
+            ",".join(distributed_hash_key) if distributed_hash_key is not None else self.gen_key_default()
+        )
         self.buckets = buckets if buckets is not None else "AUTO"
         self.table_properties = self.gen_table_properties(properties)
 
@@ -133,7 +144,7 @@ class Table:
         #     replace_str = " IF NOT EXISTS "
         table_fields_info = self.gen_table_fields_info()
         distributed = self.gen_distribute_info()
-        if self.table_properties == '':
+        if self.table_properties == "":
             sql = f"CREATE TABLE {replace_str}{self.table_name} (\n{table_fields_info}) \n{self.table_model} KEY({self.table_model_key})\n{distributed}"
             return sql
         return f"CREATE TABLE {replace_str}{self.table_name} (\n{table_fields_info}) \n{self.table_model} KEY({self.table_model_key})\n{distributed}\nPROPERTIES({self.table_properties})"
@@ -150,14 +161,16 @@ class SelectDBBase:
         self.pool = self.create_pool()
 
     def create_pool(self, pool_name="pydoris_pool"):
-        pool = mysql.connector.pooling.MySQLConnectionPool(pool_name=pool_name,
-                                                           pool_size=self.pool_size,
-                                                           host=self.host,
-                                                           port=self.port,
-                                                           user=self.user,
-                                                           password=self.passwd,
-                                                           database=self.db,
-                                                           pool_reset_session=False)
+        pool = mysql.connector.pooling.MySQLConnectionPool(
+            pool_name=pool_name,
+            pool_size=self.pool_size,
+            host=self.host,
+            port=self.port,
+            user=self.user,
+            password=self.passwd,
+            database=self.db,
+            pool_reset_session=False,
+        )
         return pool
 
     def close(self, cursor, conn):
@@ -181,7 +194,6 @@ class SelectDBBase:
     def create_database(self, database):
         self.execute(f"create database if not exists {database}")
 
-
     def get_create_table_expr(self, table_name):
         data = self.query(f"show create table {table_name}")
         return data[0][1]
@@ -197,7 +209,7 @@ class SelectDBBase:
             properties_str = properties_match.group(1)
             properties_str = re.sub(r"(\w+)\s*=", r'"\1":', properties_str)
             properties_str = re.sub(r"\s+", "", properties_str)
-            properties_dict = json.loads("{" + properties_str.replace('=', ':') + "}")
+            properties_dict = json.loads("{" + properties_str.replace("=", ":") + "}")
             return properties_dict
 
     def get_table_columns(self, table):
@@ -214,13 +226,18 @@ class SelectDBBase:
 
         return f_list
 
-    def create_table_from_df(self, replace_table, data_df: pd.DataFrame, table_name: str, table_model: str,
-                             table_module_key=None,
-                             distributed_hash_key=None,
-                             buckets=None,
-                             table_properties=None,
-                             field_mapping: list[tuple] = None,
-                             ):
+    def create_table_from_df(
+        self,
+        replace_table,
+        data_df: pd.DataFrame,
+        table_name: str,
+        table_model: str,
+        table_module_key=None,
+        distributed_hash_key=None,
+        buckets=None,
+        table_properties=None,
+        field_mapping: list[tuple] = None,
+    ):
         table = Table(
             data_df,
             table_name,
@@ -229,7 +246,7 @@ class SelectDBBase:
             distributed_hash_key=distributed_hash_key,
             buckets=buckets,
             properties=table_properties,
-            fields_mapping=field_mapping
+            fields_mapping=field_mapping,
         )
         sql = table.gen_create_table_sql(replace_table)
         print(sql)
