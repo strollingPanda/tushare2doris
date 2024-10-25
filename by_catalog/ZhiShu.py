@@ -4,68 +4,80 @@ if __name__ == "__main__":
 
 
 def download():
-
-    import api.ZhiShu.ZhiShuJiBenXinXi  # 指数_指数基本信息
+    # 指数_指数基本信息
+    import api.ZhiShu.ZhiShuJiBenXinXi
 
     api.ZhiShu.ZhiShuJiBenXinXi.create_table()
     api.ZhiShu.ZhiShuJiBenXinXi.download()
 
-    import api.ZhiShu.ZhiShuRiXianHangQing  # 指数_指数日线行情
+    # 指数_指数日线行情
+    import api.ZhiShu.ZhiShuRiXianHangQing
 
     api.ZhiShu.ZhiShuRiXianHangQing.create_table()
     api.ZhiShu.ZhiShuRiXianHangQing.download()
 
-    import api.ZhiShu.ZhiShuChengFenHeQuanZhong  # 指数_指数成分和权重
+    # 指数_指数成分和权重
+    import api.ZhiShu.ZhiShuChengFenHeQuanZhong
 
     api.ZhiShu.ZhiShuChengFenHeQuanZhong.create_table()
     api.ZhiShu.ZhiShuChengFenHeQuanZhong.download()
 
-    import api.ZhiShu.DaPanZhiShuMeiRiZhiBiao  # 指数_大盘指数每日指标
+    # 指数_大盘指数每日指标
+    import api.ZhiShu.DaPanZhiShuMeiRiZhiBiao
 
     api.ZhiShu.DaPanZhiShuMeiRiZhiBiao.create_table()
     api.ZhiShu.DaPanZhiShuMeiRiZhiBiao.download()
 
-    import api.ZhiShu.ShenWanHangYeFenLei  # 指数_申万行业分类
+    # 指数_申万行业分类
+    import api.ZhiShu.ShenWanHangYeFenLei
 
     api.ZhiShu.ShenWanHangYeFenLei.create_table()
     api.ZhiShu.ShenWanHangYeFenLei.download()
 
-    import api.ZhiShu.ShenWanHangYeChengFen  # 指数_申万行业成分（分级）
+    # 指数_申万行业成分（分级）
+    import api.ZhiShu.ShenWanHangYeChengFen
 
     api.ZhiShu.ShenWanHangYeChengFen.create_table()
     api.ZhiShu.ShenWanHangYeChengFen.download()
 
-    import api.ZhiShu.HuShenShiChangMeiRiJiaoYiTongJi  # 指数_沪深市场每日交易统计
+    # 指数_沪深市场每日交易统计
+    import api.ZhiShu.HuShenShiChangMeiRiJiaoYiTongJi
 
     api.ZhiShu.HuShenShiChangMeiRiJiaoYiTongJi.create_table()
     api.ZhiShu.HuShenShiChangMeiRiJiaoYiTongJi.download()
 
-    import api.ZhiShu.ShenZhenShiChangMeiRiJiaoYiQingKuang  # 指数_深圳市场每日交易情况
+    # 指数_深圳市场每日交易情况
+    import api.ZhiShu.ShenZhenShiChangMeiRiJiaoYiQingKuang
 
     api.ZhiShu.ShenZhenShiChangMeiRiJiaoYiQingKuang.create_table()
     api.ZhiShu.ShenZhenShiChangMeiRiJiaoYiQingKuang.download()
 
-    import api.ZhiShu.TongHuaShunGaiNianHeHangYeLieBiao  # 指数_同花顺概念和行业列表
+    # 指数_同花顺概念和行业列表
+    import api.ZhiShu.TongHuaShunGaiNianHeHangYeLieBiao
 
     api.ZhiShu.TongHuaShunGaiNianHeHangYeLieBiao.create_table()
     api.ZhiShu.TongHuaShunGaiNianHeHangYeLieBiao.download()
 
-    import api.ZhiShu.TongHuaShunGaiNianHeHangYeZhiShuHangQing  # 指数_同花顺概念和行业指数行情
+    # 指数_同花顺概念和行业指数行情
+    import api.ZhiShu.TongHuaShunGaiNianHeHangYeZhiShuHangQing
 
     api.ZhiShu.TongHuaShunGaiNianHeHangYeZhiShuHangQing.create_table()
     api.ZhiShu.TongHuaShunGaiNianHeHangYeZhiShuHangQing.download()
 
-    import api.ZhiShu.TongHuaShunGaiNianHeHangYeZhiShuChengFen  # 指数_同花顺概念和行业指数成分
+    # 指数_同花顺概念和行业指数成分
+    import api.ZhiShu.TongHuaShunGaiNianHeHangYeZhiShuChengFen
 
     api.ZhiShu.TongHuaShunGaiNianHeHangYeZhiShuChengFen.create_table()
     api.ZhiShu.TongHuaShunGaiNianHeHangYeZhiShuChengFen.download()
 
-    import api.ZhiShu.ZhongXinHangYeZhiShuRiHangQing  # 指数_中信行业指数日行情
+    # 指数_中信行业指数日行情
+    import api.ZhiShu.ZhongXinHangYeZhiShuRiHangQing
 
     api.ZhiShu.ZhongXinHangYeZhiShuRiHangQing.create_table()
     api.ZhiShu.ZhongXinHangYeZhiShuRiHangQing.download()
 
-    import api.ZhiShu.ShenWanHangYeZhiShuRiHangQing  # 指数_申万行业指数日行情
+    # 指数_申万行业指数日行情
+    import api.ZhiShu.ShenWanHangYeZhiShuRiHangQing
 
     api.ZhiShu.ShenWanHangYeZhiShuRiHangQing.create_table()
     api.ZhiShu.ShenWanHangYeZhiShuRiHangQing.download()

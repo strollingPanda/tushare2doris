@@ -114,7 +114,8 @@ class DorisClient:
         if "ErrorURL" in resp.text:
             logger.error(resp.text)
         else:
-            logger.info(resp.text)
+            print(resp.text)
+            # logger.info(resp.text)
         import json
 
         load_status = json.loads(resp.text)["Status"] == "Success"

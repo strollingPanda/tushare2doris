@@ -22,6 +22,12 @@ def create_table():
     doris_client = basis.with_pydoris.connect_database()
     # 读取basis/config.yaml
     config = basis.basis_function.load_config()
+    # 下载数据存储的表格名称
+    table_name = config["Ts_ZhiShu_ShenWanHangYeChengFen"]["table_name"]
+    # 下载数据存储的表格名称
+    table_name = config["Ts_ZhiShu_ShenWanHangYeFenLei"]["table_name"]
+    # 删除原有表格
+    basis.basis_function.drop_table(table_name)
     # 创建表格
     operation = (
         "CREATE TABLE IF NOT EXISTS "
@@ -42,7 +48,7 @@ def create_table():
             out_date VARCHAR(8) COMMENT "剔除日期",
             is_new VARCHAR(1) COMMENT "是否最新Y是N否"
         )
-        UNIQUE KEY(l1_code,l1_name,l2_code,l2_name,l3_code,l3_name,ts_code)
+        DUPLICATE KEY(l1_code,l1_name,l2_code,l2_name,l3_code,l3_name,ts_code)
         COMMENT "tushare_指数-申万行业成分"
 
         DISTRIBUTED BY HASH(l1_code) BUCKETS 1

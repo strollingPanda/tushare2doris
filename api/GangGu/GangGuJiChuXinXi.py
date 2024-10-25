@@ -22,6 +22,10 @@ def create_table():
     doris_client = basis.with_pydoris.connect_database()
     # 读取basis/config.yaml
     config = basis.basis_function.load_config()
+    # 下载数据存储的表格名称
+    table_name = config["Ts_GangGu_GangGuJiChuXinXi"]["table_name"]
+    # 删除原有表格
+    basis.basis_function.drop_table(table_name)
     # 创建表格
     operation = (
         "CREATE TABLE IF NOT EXISTS "
@@ -43,7 +47,7 @@ def create_table():
             isin VARCHAR(50) COMMENT "ISIN代码",
             curr_type VARCHAR(50) COMMENT "货币代码"
         )
-        UNIQUE KEY(ts_code,name)
+        DUPLICATE KEY(ts_code,name)
         COMMENT "tushare_港股_港股基础信息"
 
         DISTRIBUTED BY HASH(ts_code) BUCKETS 1

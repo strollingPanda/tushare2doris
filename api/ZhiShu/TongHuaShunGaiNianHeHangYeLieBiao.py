@@ -16,6 +16,10 @@ def create_table():
     doris_client = basis.with_pydoris.connect_database()
     # 读取basis/config.yaml
     config = basis.basis_function.load_config()
+    # 下载数据存储的表格名称
+    table_name = config["Ts_ZhiShu_TongHuaShunGaiNianHeHangYeLieBiao"]["table_name"]
+    # 删除原有表格
+    basis.basis_function.drop_table(table_name)
     # 创建表格
     operation = (
         "CREATE TABLE IF NOT EXISTS "
@@ -31,7 +35,7 @@ def create_table():
             list_date VARCHAR(8) COMMENT "上市日期",
             type VARCHAR(50) COMMENT "N概念指数S特色指数"     
         )
-        UNIQUE KEY(ts_code)
+        DUPLICATE KEY(ts_code)
         COMMENT "tushare_指数_同花顺概念和行业列表"
 
         DISTRIBUTED BY HASH(ts_code) BUCKETS 1

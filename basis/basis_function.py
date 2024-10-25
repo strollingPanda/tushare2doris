@@ -58,6 +58,16 @@ def create_database():
     doris_client.create_database(config["database_name"])
 
 
+def drop_table(table_name):
+    """
+    删除表
+    在doris_client中，执行语句为"drop table if exists"
+    """
+    doris_client = basis.with_pydoris.connect_doris()
+    config = load_config()
+    doris_client.drop_table(config["database_name"], table_name)
+
+
 def connect_tushare():
     """
     连接tushare。在本软件中，可以用以下两种方式给本地计算授权：

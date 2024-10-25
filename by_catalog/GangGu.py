@@ -4,19 +4,26 @@ if __name__ == "__main__":
 
 
 def download():
-    import api.GangGu.GangGuJiChuXinXi  # 港股_港股基础信息
+    # 港股_港股基础信息
+    import api.GangGu.GangGuJiChuXinXi
 
     api.GangGu.GangGuJiChuXinXi.create_table()
     api.GangGu.GangGuJiChuXinXi.download()
-    import api.GangGu.GangGuJiaoYiRiLi  # 港股_港股交易日历
+
+    # 港股_港股交易日历
+    import api.GangGu.GangGuJiaoYiRiLi
 
     api.GangGu.GangGuJiaoYiRiLi.create_table()
     api.GangGu.GangGuJiaoYiRiLi.download()
-    import api.GangGu.GangGuRiXianHangQing  # 港股_港股日线行情
+
+    # 港股_港股日线行情
+    import api.GangGu.GangGuRiXianHangQing
 
     api.GangGu.GangGuRiXianHangQing.create_table()
     api.GangGu.GangGuRiXianHangQing.download()
-    import api.GangGu.GangGuFuQuanHangQing  # 港股_港股复权行情
+
+    # 港股_港股复权行情
+    import api.GangGu.GangGuFuQuanHangQing
 
     api.GangGu.GangGuFuQuanHangQing.create_table()
     api.GangGu.GangGuFuQuanHangQing.download()

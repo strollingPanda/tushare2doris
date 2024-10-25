@@ -22,6 +22,10 @@ def create_table():
     doris_client = basis.with_pydoris.connect_database()
     # 读取basis/config.yaml
     config = basis.basis_function.load_config()
+    # 下载数据存储的表格名称
+    table_name = config["Ts_ZhiShu_ShenWanHangYeFenLei"]["table_name"]
+    # 删除原有表格
+    basis.basis_function.drop_table(table_name)
     # 创建表格
     operation = (
         "CREATE TABLE IF NOT EXISTS "
@@ -38,7 +42,7 @@ def create_table():
             parent_code	VARCHAR(50)	COMMENT "父级代码",
             src	VARCHAR(50)	COMMENT "行业分类（SW申万）"
         )
-        UNIQUE KEY(index_code)
+        DUPLICATE KEY(index_code)
         COMMENT "tushare_指数-申万行业分类"
 
         DISTRIBUTED BY HASH(index_code) BUCKETS 1
