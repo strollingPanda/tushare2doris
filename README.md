@@ -62,7 +62,7 @@
 
 以下展示在Ubuntu 24上安装虚拟环境，并安装python包。    
 
-以root身份登陆terminal，首相安装venv，运行    
+以root身份登陆terminal，运行以下代码以安装venv 
 `apt install python3.12-venv`  
 
 在terminal上，运行下面代码，以进入/alpha-suite/tushare2doris文件夹，生成本程序需要的虚拟环境  
@@ -528,7 +528,7 @@ vm.max_map_count = 2000000
 ##### 添加BE节点到集群
 登陆mysql，在mysql中运行如下命令  
 `ALTER SYSTEM ADD BACKEND "x.x.x.x:9050";`  
-其中，x.x.x.x为本机ip，此次可以设置为127.0.0.1
+其中，x.x.x.x为本机ip，此处可以设置为127.0.0.1
 
 ##### 在mysql中查看BE状态。
 在mysql中运行如下命令  
