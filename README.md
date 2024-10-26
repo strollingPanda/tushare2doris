@@ -58,15 +58,20 @@
 |  ./main.py  | 该文件用于同步tushare所有已实现的接口。      |
   
 ### 程序运行需要的环境
-本软件运行需要的python包有tushare、 yaml、 datetime、 loguru、 mysql。  
+本软件运行需要的python包有tushare、 yaml、 datetime、 loguru、 mysql。 
+
 以下展示在Ubuntu 24上安装虚拟环境，并安装python包。    
+
 以root身份登陆terminal，首相安装venv，运行    
 `apt install python3.12-venv`  
+
 在terminal上，运行下面代码，以进入/alpha-suite/tushare2doris文件夹，生成本程序需要的虚拟环境  
 `cd /alpha-suite/tushare2doris/`  
 `python3 -m venv venv-tushare2doris`  
+
 运行下面代码以启用虚拟环境    
 `source venv-tushare2doris/bin/activate`  
+
 在虚拟环境下，运行如下代码，安装所需的python包  
 
     pip install tushare

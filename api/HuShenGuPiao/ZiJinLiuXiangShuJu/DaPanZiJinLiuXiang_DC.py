@@ -51,52 +51,43 @@ def create_table():
     doris_client.execute(operation)
 
 
-@basis.basis_function.retry
-def download_execute(
+# 从tushare下载
+def download_from_tushare(
     pro,
-    logger,
+    ts_code="",
     trade_date="",
     start_date="",
     end_date="",
     limit="",
     offset="",
 ):
-    """
-    执行具体下载操作
-    """
-    exception_status = 0  # 0表示下载正常，1表示出现异常状况
-    try:
-        df = pro.moneyflow_mkt_dc(
-            **{
-                "trade_date": trade_date,
-                "start_date": start_date,
-                "end_date": end_date,
-                "limit": limit,
-                "offset": offset,
-            },
-            fields=[
-                "trade_date",
-                "close_sh",
-                "ptc_change_sh",
-                "close_sz",
-                "pct_change_sz",
-                "net_amount",
-                "net_amount_rate",
-                "buy_elg_amount",
-                "buy_elg_amount_rate",
-                "buy_lg_amount",
-                "buy_lg_amount_rate",
-                "buy_md_amount",
-                "buy_md_amount_rate",
-                "buy_sm_amount",
-                "buy_sm_amount_rate",
-            ]
-        )
-    except:
-        logger.error("An exception occurred")
-        df = pandas.DataFrame()
-        exception_status = 1  # 下载出现异常状况
-    return df, exception_status
+    df_local = pro.moneyflow_mkt_dc(
+        **{
+            "trade_date": trade_date,
+            "start_date": start_date,
+            "end_date": end_date,
+            "limit": limit,
+            "offset": offset,
+        },
+        fields=[
+            "trade_date",
+            "close_sh",
+            "ptc_change_sh",
+            "close_sz",
+            "pct_change_sz",
+            "net_amount",
+            "net_amount_rate",
+            "buy_elg_amount",
+            "buy_elg_amount_rate",
+            "buy_lg_amount",
+            "buy_lg_amount_rate",
+            "buy_md_amount",
+            "buy_md_amount_rate",
+            "buy_sm_amount",
+            "buy_sm_amount_rate",
+        ]
+    )
+    return df_local
 
 
 def download():
@@ -111,8 +102,8 @@ def download():
     # 创建logger
     logger = basis.basis_function.creat_logger()
 
-    # 按日期下载
-    basis.basis_function.download_by_date(table_name, download_execute, "沪深股票", logger)
+    # 按开始、结束日期下载
+    basis.basis_function.download_by_start_end_date(table_name, download_from_tushare, "沪深股票", logger)
 
 
 if __name__ == "__main__":

@@ -3,6 +3,7 @@ import tushare as ts
 import basis.with_pydoris
 import yaml
 import time
+import pandas
 from functools import wraps
 from loguru import logger
 import os
@@ -35,7 +36,7 @@ def retry(func):
         tried_times = 0  # 已经尝试下载了几次
         while (
             exception_status == 1 and tried_times < retry_times_max
-        ):  # 如果下载异常正常，同时尝试下次次数不足，重复下载
+        ):  # 如果下载异常，同时尝试下次次数不足，重复下载
             if tried_times >= 1:  # 如果已经不是首次下载，暂停一段时间后再下载
                 time.sleep(retry_gap)  # retry_gap秒后重新下载
             df, exception_status = func(*args, **kwargs)  # 执行下载
@@ -229,3 +230,115 @@ def creat_logger():
     mkdir("log")
     logger.add("log/" + datetime.datetime.today().strftime("%Y%m%d") + ".log", retention="10 days")
     return logger
+
+
+@retry
+def download_by_start_end_date_execute(
+    pro, logger, download_from_tushare, start_date="", end_date="", limit=""
+):
+    # 读取config/database.yaml
+    config = basis.basis_function.load_config()
+    exception_status = 0  # 0表示下载正常，1表示出现异常状况
+    offset = 0
+    try:
+        df = pandas.DataFrame()  # 最终函数的返回值
+        df_local = pandas.DataFrame()  # 暂时设为空值，以执行循环
+        num_times_download = 0  # 已经下载了几次
+        # 若首次下载，或下载的数据大于等于limit，继续循环
+        while num_times_download == 0 or df_local.shape[0] >= limit:
+            df_local = download_from_tushare(
+                pro,
+                start_date=start_date,
+                end_date=end_date,
+                limit=limit,
+                offset=offset,
+            )  # 从tushare下载
+            num_times_download += 1  # 已经下载了几次
+            df = pandas.concat([df, df_local])  # 将df_local加入结果
+            offset = num_times_download * limit  # 计算新的offset
+            print("第" + str(num_times_download) + "次下载，" + "本次下载" + str(len(df_local)) + "行")
+            time.sleep(config["regular_gap"])  # 等待一段时间再继续下载
+    except:
+        logger.error("An exception occurred")
+        df = pandas.DataFrame()
+        exception_status = 1  # 下载出现异常状况
+    return df, exception_status
+
+
+def download_by_start_end_date(table_name, download_from_tushare, asset_type, logger):
+    """按照开始日期、结束日期进行下载"""
+
+    # 连接database
+    doris_client = basis.with_pydoris.connect_database()
+    # 连接tushare
+    pro = connect_tushare()
+    # 读取config/database.yaml
+    config = load_config()
+
+    # 对于日线行情，是否全部从头重新下载。如果为1，则从头重新下载；如果为0，则不从头重新下载
+    download_as_fresh = config[table_name]["download_as_fresh"]
+    # 如果日线行情已经存在数据，从存在数据的最后一天向前算，重新下载几天的数据。
+    # 注意，这样是因为担心最近几天doris中存在的数据可能有缺漏
+    num_previous_days_redownload = config[table_name]["num_previous_days_redownload"]
+    # first_date_download_default用来调节从哪天开始下载数据。默认是tushare数据库里的最早数据日期。
+    first_date_download_default = config[table_name]["first_date_download_default"]
+
+    # 不同交易品种的 交易日历 表不同。
+    # 指数中的沪深相关指数 用 沪深股票 的交易日历
+    table_name_JiaoYiRiLi_dict = {
+        "沪深股票": config["Ts_HuShenGuPiao_JiChuShuJu_JiaoYiRiLi"]["table_name"],
+        "期货": config["Ts_QiHuo_JiaoYiRiLi"]["table_name"],
+        "沪深指数": config["Ts_HuShenGuPiao_JiChuShuJu_JiaoYiRiLi"]["table_name"],
+        "港股": config["Ts_GangGu_GangGuJiaoYiRiLi"]["table_name"],
+    }
+    table_name_JiaoYiRiLi = table_name_JiaoYiRiLi_dict[asset_type]
+    # 交易日历里的有交易的日期
+    option = (
+        "SELECT DISTINCT cal_date FROM "
+        + config["database_name"]
+        + "."
+        + table_name_JiaoYiRiLi
+        + " WHERE is_open=1 ORDER BY cal_date ASC;"
+    )
+    date_all_JiaoYiRiLi = doris_client.query(option)  # 交易日历里的所有日期
+
+    # table_name里现存的最晚日期
+    option = "SELECT MAX(trade_date) FROM " + config["database_name"] + "." + table_name + ";"
+    date_exist_latest = doris_client.query(option)[0][0]
+
+    # 下载应从date_all_JiaoYiRiLi的多少行开始执行。
+    row_start_to_download = get_row_start_to_download(
+        date_all_JiaoYiRiLi, date_exist_latest, download_as_fresh, num_previous_days_redownload
+    )
+    # 要下载的日期不能早于first_date_download_default
+    # 这里的逻辑是这样：
+    # date_all_JiaoYiRiLi是对于所有股票或期货的，对于股票来说，是从1990年开始的，因此是一个特别长的list。row_to_download可能为0。
+    # 但对于某些表，比如港股通，数据是从2014年开始的。
+    # 因此在下载港股通数据时，对于1990-2014年之间的数据，可以不用尝试下载
+    # 同时要下载的日期不要晚于明天
+    date_tomorrow = get_date_next(datetime.datetime.today().strftime("%Y%m%d"))
+    date_all_to_download = []
+    for row_to_download in range(row_start_to_download, len(date_all_JiaoYiRiLi)):
+        date_local = date_all_JiaoYiRiLi[row_to_download][0]  # 当前应该下载的日期
+        if date_local >= first_date_download_default and date_local <= date_tomorrow:
+            date_all_to_download.append(date_local)
+
+    if len(date_all_to_download) > 0:
+        start_date = date_all_to_download[0]  # 下载开始日期
+        end_date = date_all_to_download[len(date_all_to_download) - 1]  # 下载结束日期
+        limit = config[table_name]["limit"]  # 读取limit
+        logger.info(
+            "downloading "
+            + table_name
+            + ". start_date: "
+            + str(start_date)
+            + " end_date: "
+            + str(end_date)
+            + " limit: "
+            + str(limit)
+        )
+        df = download_by_start_end_date_execute(
+            pro, logger, download_from_tushare, start_date=start_date, end_date=end_date, limit=limit
+        )  # 执行下载
+        basis.with_pydoris.upload_dataframe_as_json(df, table_name, logger)  # 上传至doris
+        time.sleep(config["regular_gap"])  # 等待一段时间再继续下载
