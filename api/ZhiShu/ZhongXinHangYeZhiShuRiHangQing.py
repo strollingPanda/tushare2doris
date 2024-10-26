@@ -7,7 +7,7 @@ import basis.basis_function
 import basis.with_pydoris
 import pandas
 
-# https://tushare.pro/document/2?doc_id=128
+# https://tushare.pro/document/2?doc_id=308
 
 
 # 创建表格

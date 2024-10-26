@@ -54,7 +54,7 @@ be:
 
 # num_previous_seasons_redownload 在下载季度数据时，若download_as_fresh为0，则对doris已存的最后num_previous_seasons_redownload季度的数据重新下载。这样做的主要原因是公司可能对之前的季度报表数据进行更改。
 
-
+# limit 为tushare对单次最大多少条的限制
 # 沪深股票
 
 # 沪深股票_基础数据_股票列表
@@ -110,6 +110,7 @@ Ts_HuShenGuPiao_HangQingShuJu_MeiRiTingFuPaiXinXi:
  download_as_fresh: 0
  num_previous_days_redownload: 3
  first_date_download_default: "19990504" 
+ limit: 5000
 
 # 沪深股票_行情数据_沪深港通资金流向
 Ts_HuShenGuPiao_HangQingShuJu_HuShenGangTongZiJinLiuXiang: 
@@ -138,6 +139,7 @@ Ts_HuShenGuPiao_HangQingShuJu_GangGuTongMeiRiChengJiaoTongJi:
  download_as_fresh: 0
  num_previous_days_redownload: 3
  first_date_download_default: "20141117" 
+ limit: 1000
 
 # 沪深股票_行情数据_备用行情
 Ts_HuShenGuPiao_HangQingShuJu_BeiYongHangQing: 
@@ -229,6 +231,7 @@ Ts_HuShenGuPiao_LiangRongJiZhuanRongTong_RongZiRongQuanJiaoYiHuiZong:
  download_as_fresh: 0
  num_previous_days_redownload: 3
  first_date_download_default: "20100331" 
+ limit: 5000
 
 # 沪深股票_两融及转融通_融资融券交易明细
 Ts_HuShenGuPiao_LiangRongJiZhuanRongTong_RongZiRongQuanJiaoYiMingXi:
@@ -271,6 +274,7 @@ Ts_HuShenGuPiao_LiangRongJiZhuanRongTong_ZuoShiJieQuanJiaoYiHuiZong:
  download_as_fresh: 0
  num_previous_days_redownload: 3
  first_date_download_default: "20221114" 
+ limit: 5000
 
 # 沪深股票_资金流向数据_个股资金流向
 Ts_HuShenGuPiao_ZiJinLiuXiangShuJu_GeGuZiJinLiuXiang: 
@@ -299,6 +303,7 @@ Ts_HuShenGuPiao_ZiJinLiuXiangShuJu_HangYeZiJinLiuXiang_THS:
  download_as_fresh: 0
  num_previous_days_redownload: 3
  first_date_download_default: "20240910" 
+ limit: 5000
 
 # 沪深股票_资金流向数据_板块资金流向（DC）
 Ts_HuShenGuPiao_ZiJinLiuXiangShuJu_BanKuaiZiJinLiuXiang_DC: 
@@ -306,6 +311,7 @@ Ts_HuShenGuPiao_ZiJinLiuXiangShuJu_BanKuaiZiJinLiuXiang_DC:
  download_as_fresh: 0
  num_previous_days_redownload: 3
  first_date_download_default: "20230912" 
+ limit: 5000
 
 # 沪深股票_资金流向数据_大盘资金流向（DC）
 Ts_HuShenGuPiao_ZiJinLiuXiangShuJu_DaPanZiJinLiuXiang_DC: 
@@ -313,6 +319,7 @@ Ts_HuShenGuPiao_ZiJinLiuXiangShuJu_DaPanZiJinLiuXiang_DC:
  download_as_fresh: 0
  num_previous_days_redownload: 3
  first_date_download_default: "20230417" 
+ limit: 3000
 
 # 沪深股票_资金流向数据_沪深港通资金流向
 Ts_HuShenGuPiao_ZiJinLiuXiangShuJu_HuShenGangTongZiJinLiuXiang: 
@@ -320,6 +327,7 @@ Ts_HuShenGuPiao_ZiJinLiuXiangShuJu_HuShenGangTongZiJinLiuXiang:
  download_as_fresh: 0
  num_previous_days_redownload: 3
  first_date_download_default: "20141117" 
+ limit: 300
 
 # 指数
 
@@ -359,6 +367,7 @@ Ts_ZhiShu_HuShenShiChangMeiRiJiaoYiTongJi:
  download_as_fresh: 0
  num_previous_days_redownload: 3
  first_date_download_default: "19901219" 
+ limit: 4000
 
 # 指数_深圳市场每日交易情况
 Ts_ZhiShu_ShenZhenShiChangMeiRiJiaoYiQingKuang: 
@@ -366,6 +375,7 @@ Ts_ZhiShu_ShenZhenShiChangMeiRiJiaoYiQingKuang:
  download_as_fresh: 0
  num_previous_days_redownload: 3
  first_date_download_default: "20080102" 
+ limit: 2000
 
 # 指数_同花顺概念和行业列表
 Ts_ZhiShu_TongHuaShunGaiNianHeHangYeLieBiao: 
@@ -484,6 +494,7 @@ Ts_ZhaiQuan_ZhaiQuanHuiGouRiHangQing:
  download_as_fresh: 0
  num_previous_days_redownload: 3
  first_date_download_default: "19940621" 
+ limit: 2000
 
 # 债券_国债收益率曲线 
 Ts_ZhaiQuan_GuoZhaiShouYiLvQuXian: 

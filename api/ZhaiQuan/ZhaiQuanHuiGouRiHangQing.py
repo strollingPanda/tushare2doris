@@ -7,7 +7,6 @@ import basis.basis_function
 import basis.with_pydoris
 import pandas
 import basis.with_pydoris
-import basis.basis_function
 import basis.with_pydoris
 import pandas
 import time
@@ -53,62 +52,41 @@ def create_table():
     doris_client.execute(operation)
 
 
-@basis.basis_function.retry
-def download_execute(
+# 从tushare下载
+def download_from_tushare(
     pro,
-    logger,
     ts_code="",
     trade_date="",
     start_date="",
     end_date="",
-    limit=2000,
+    limit="",
     offset="",
 ):
-    """
-    执行具体下载操作
-    """
-    # 读取config/database.yaml
-    config = basis.basis_function.load_config()
-    exception_status = 0  # 0表示下载正常，1表示出现异常状况
-    try:
-        df = pandas.DataFrame()  # 最终函数的返回值
-        df_local = pandas.DataFrame()  # 暂时设为空值，以执行循环
-        num_times_download = 0  # 已经下载了几次
-        # 若首次下载，或下载的数据大于等于limit，继续循环
-        while num_times_download == 0 or df_local.shape[0] >= limit:
-            df_local = pro.repo_daily(
-                **{
-                    "ts_code": ts_code,
-                    "trade_date": trade_date,
-                    "start_date": start_date,
-                    "end_date": end_date,
-                    "limit": limit,
-                    "offset": offset,
-                },
-                fields=[
-                    "ts_code",
-                    "trade_date",
-                    "repo_maturity",
-                    "pre_close",
-                    "open",
-                    "high",
-                    "low",
-                    "close",
-                    "weight",
-                    "weight_r",
-                    "amount",
-                    "num",
-                ]
-            )  # 从tushare下载
-            num_times_download += 1  # 已经下载了几次
-            df = pandas.concat([df, df_local])  # 将df_local加入结果
-            offset = num_times_download * limit  # 计算新的offset
-            time.sleep(config["regular_gap"])  # 等待一段时间再继续下载
-    except:
-        logger.error("An exception occurred")
-        df = pandas.DataFrame()
-        exception_status = 1  # 下载出现异常状况
-    return df, exception_status
+    df_local = pro.repo_daily(
+        **{
+            "ts_code": ts_code,
+            "trade_date": trade_date,
+            "start_date": start_date,
+            "end_date": end_date,
+            "limit": limit,
+            "offset": offset,
+        },
+        fields=[
+            "ts_code",
+            "trade_date",
+            "repo_maturity",
+            "pre_close",
+            "open",
+            "high",
+            "low",
+            "close",
+            "weight",
+            "weight_r",
+            "amount",
+            "num",
+        ]
+    )
+    return df_local
 
 
 def download():
@@ -123,8 +101,8 @@ def download():
     # 创建logger
     logger = basis.basis_function.creat_logger()
 
-    # 按日期下载
-    basis.basis_function.download_by_date(table_name, download_execute, "沪深股票", logger)
+    # 按开始、结束日期下载
+    basis.basis_function.download_by_start_end_date(table_name, download_from_tushare, "沪深股票", logger)
 
 
 if __name__ == "__main__":
